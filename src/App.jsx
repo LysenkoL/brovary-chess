@@ -142,42 +142,42 @@ const NEWS = [
     tag: "Травень 2026 · Чемпіонат області",
     title: "Бровари приймали чемпіонат Київщини до 8 та 10 років",
     text: "Три дні в готелі «Grand Sport» 50 юних шахістів з усієї області грали класику у 9 турів. У броварчан — 2 золота і 2 бронзи: Кароліна Брюхович виграла турнір дівчат до 10 років, Максим Громосяк — турнір юнаків до 10, Віра Михайлова та Миколай Кадурін здобули бронзу серед наймолодших.",
-    img: "/images/news1.jpg",
+    img: "./images/news1.jpg",
   },
   {
     id: "n2",
     tag: "2026 · Чемпіонат України",
     title: "Кароліна Брюхович — абсолютна чемпіонка України до 8 років",
     text: "У Мукачеві юна броварчанка зробила шаховий «хет-трик»: три золоті медалі у трьох дисциплінах — класиці, рапіді та бліці. У класичних шахах — 7,5 очка з 9 і чисте перше місце. Це вже другий титул чемпіонки країни з класики у її віці.",
-    img: "/images/news2.jpg",
+    img: "./images/news2.jpg",
   },
   {
     id: "n3",
     tag: "Квітень 2026 · Чемпіонат світу",
     title: "Два срібла чемпіонату світу їдуть до Броварів",
     text: "На FIDE World Cadet & Youth Championships у сербській Врнячці-Бані Кароліна Брюхович здобула срібло у складі команди «Ukrainian chess queens» (5 перемог у 6 партіях на другій дошці) та особисте срібло у бліці серед дівчат до 8 років — 9 очок з 11, пів-очка до золота.",
-    img: "/images/news3.jpg",
+    img: "./images/news3.jpg",
   },
   {
     id: "n4",
     tag: "Березень 2026 · Чемпіонат області",
     title: "Чемпіонат Київщини до 12 років: золото і бронза господарів",
     text: "48 дітей з регіонів області грали у Броварах 9 турів класики. Кароліна Брюхович виграла турнір дівчат з результатом 8 очок, Максим Громосяк завоював бронзу серед хлопців. Усі учасники отримали пам'ятні подарунки.",
-    img: "/images/news4.jpg",
+    img: "./images/news4.jpg",
   },
   {
     id: "n5",
     tag: "Лютий–березень 2026 · Кваліфікація",
     title: "«Зимова казка»: 9 з 9 — ідеальний турнір Ігоря Кравця",
     text: "На київському кваліфікаційному турнірі Ігор Кравець виграв усі дев'ять партій і здобув норматив 2 розряду. Кароліна Брюхович фінішувала другою у турнірі з нормою 1 розряду.",
-    img: "/images/news5.jpg",
+    img: "./images/news5.jpg",
   },
   {
     id: "n6",
     tag: "Січень 2026 · Чемпіонат Києва",
     title: "Шість медалей чемпіонатів Києва до 10 та 16 років",
     text: "Кароліна Брюхович виграла класику дівчат до 10 років з абсолютним результатом 9 з 9, додавши золото рапіду та срібло бліцу. Артем Пільчук — чемпіон з бліцу до 16 років (10,5 з 11) і срібний призер рапіду. Іван Парьоха — срібло у класиці до 16. Марк Рєзнік виконав норматив 2 розряду.",
-    img: "/images/news6.jpg",
+    img: "./images/news6.jpg",
   },
 ];
 
@@ -186,7 +186,7 @@ const PLAYERS = [
     id: "p1",
     name: "Кароліна Брюхович",
     born: "2018",
-    photo: "/images/player1.jpg",
+    photo: "./images/player1.jpg",
     fideId: "529014778",
     case_: "Абсолютна чемпіонка України-2026 до 8 років (3 золота). Дворазова віце-чемпіонка світу 2026 з рапіду (команда) та бліцу.",
     metric: "Віце-чемпіонка світу",
@@ -195,7 +195,7 @@ const PLAYERS = [
     id: "p2",
     name: "Артем Пільчук",
     born: "2010",
-    photo: "/images/player2.jpg",
+    photo: "./images/player2.jpg",
     fideId: "34139931",
     case_: "КМС. Чемпіон Києва з бліцу до 16 та до 20 років. Срібний призер відкритого Кубка Києва з бліцу — 9 з 11 та +66 пунктів міжнародного рейтингу.",
     metric: "КМС · чемпіон Києва з бліцу",
@@ -204,7 +204,7 @@ const PLAYERS = [
     id: "p3",
     name: "Андрій Артемов",
     born: "",
-    photo: "/images/player3.jpg",
+    photo: "./images/player3.jpg",
     fideId: "34121307",
     case_: "Учасник чемпіонату Європи-2025 до 16 років (Будва, Чорногорія). Віце-чемпіон громади 2024 року з рапіду та бліцу серед дорослих.",
     metric: "Учасник ЧЄ-2025",
@@ -213,7 +213,7 @@ const PLAYERS = [
     id: "p4",
     name: "Іван Парьоха",
     born: "",
-    photo: "/images/player4.jpg",
+    photo: "./images/player4.jpg",
     fideId: "",
     case_: "1 розряд. Переможець свого турніру «Brovary Rating Cup 2025» (+54 пункти ЕЛО). Срібло чемпіонату Києва з класики до 16 років, бронза з бліцу до 20.",
     metric: "Переможець Brovary Rating Cup",
@@ -222,7 +222,7 @@ const PLAYERS = [
     id: "p5",
     name: "Максим Громосяк",
     born: "",
-    photo: "/images/player5.jpg",
+    photo: "./images/player5.jpg",
     fideId: "",
     case_: "Чемпіон Київської області 2026 року серед юнаків до 10 років. Бронзовий призер чемпіонату області до 12 років.",
     metric: "Чемпіон області до 10 років",
@@ -231,7 +231,7 @@ const PLAYERS = [
     id: "p6",
     name: "Олексій Громосяк",
     born: "",
-    photo: "/images/player6.jpg",
+    photo: "./images/player6.jpg",
     fideId: "",
     case_: "Найкращий результат фестивалю «Зимова казка» серед гравців до 12 років. Четверте місце чемпіонату Києва з рапіду.",
     metric: "1 розряд",
@@ -416,19 +416,19 @@ function CoachLanding({ goHome, onContact }) {
 
   const cases = [
     {
-      photo: "/images/player1.jpg",
+      photo: "./images/player1.jpg",
       name: "Кароліна Брюхович",
       sub: "до 8 років",
       text: "Абсолютна чемпіонка України-2026 — золото в усіх трьох дисциплінах (у бліці 9,5 з 11). Дворазова віце-чемпіонка Європи з рапіду та бліцу. Шлях від перших уроків до рівня збірної країни.",
     },
     {
-      photo: "/images/player2.jpg",
+      photo: "./images/player2.jpg",
       name: "Артем Пільчук",
       sub: "КМС",
       text: "Чемпіон Києва з бліцу до 16 та до 20 років. Срібний призер відкритого Кубка Києва, +66 пунктів міжнародного рейтингу за один турнір.",
     },
     {
-      photo: "/images/player3.jpg",
+      photo: "./images/player3.jpg",
       name: "Андрій Артемов",
       sub: "ЧЄ-2025",
       text: "Учасник чемпіонату Європи до 16 років у Будві. Віце-чемпіон Броварської громади серед дорослих з рапіду та бліцу.",
@@ -516,7 +516,7 @@ function CoachLanding({ goHome, onContact }) {
           </div>
           <div className="md:col-span-2">
             <div className="rounded-3xl overflow-hidden aspect-[4/5] relative" style={{ backgroundColor: "#39362F" }}>
-              <SmartImg src="/images/coach.jpg" alt="Семен Гребенюк за шахівницею"
+              <SmartImg src="./images/coach.jpg" alt="Семен Гребенюк за шахівницею"
                 className="absolute inset-0 w-full h-full object-cover"
                 fallback="https://images.unsplash.com/photo-1528819622765-d6bcf132f793?auto=format&fit=crop&w=800&q=80" />
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 pointer-events-none" style={{ zIndex: -1 }}>
@@ -806,7 +806,7 @@ export default function BrovaryChessFederation() {
 
       {/* ===== Hero ===== */}
       <section id="hero" className="relative min-h-screen flex items-end overflow-hidden" style={{ backgroundColor: C.ink }}>
-        <SmartImg src="/images/hero.jpg"
+        <SmartImg src="./images/hero.jpg"
           fallback="https://images.unsplash.com/photo-1529699211952-734e80c4d42b?auto=format&fit=crop&w=2000&q=80"
           alt="Шахові фігури в теплому світлі"
           className="absolute inset-0 w-full h-full object-cover" />
@@ -860,7 +860,7 @@ export default function BrovaryChessFederation() {
               >
                 <div className="relative w-full aspect-[4/5] sm:aspect-auto sm:flex-1 bg-[#EFF1F4] overflow-hidden flex items-center justify-center">
                   <img
-                    src="/images/coach.jpg"
+                    src="./images/coach.jpg"
                     alt="Семен Гребенюк"
                     className="absolute inset-0 w-full h-full object-cover object-[center_top] transition-transform duration-700 group-hover:scale-105 z-10"
                   />
