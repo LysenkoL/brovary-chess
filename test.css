@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@variant hover {
+  &:hover {
+    @slot;
+  }
+}
+
+@variant group-hover {
+  :merge(.group):hover & {
+    @slot;
+  }
+}
