@@ -41,3 +41,13 @@ body {
     background-color: #fcfbf7;
     overflow-x: hidden;
 }
+
+/* Fix for touch-screen laptops where hover media query fails in Tailwind v4 */
+@media (max-width: 10000px) {
+    .group:hover .group-hover\:translate-y-0 { --tw-translate-y: 0 !important; }
+    .group:hover .group-hover\:translate-y-2 { --tw-translate-y: 0.5rem !important; }
+    .group:hover .group-hover\:translate-x-1 { --tw-translate-x: 0.25rem !important; }
+    .group:hover .group-hover\:opacity-0 { opacity: 0 !important; }
+    .group:hover .group-hover\:scale-105 { scale: 1.05 !important; }
+    .group:hover .group-hover\:scale-110 { scale: 1.10 !important; }
+}
