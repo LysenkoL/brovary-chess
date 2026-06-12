@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme {
+    --font-serif: "Cormorant Garamond", serif;
+    --font-sans: "Manrope", sans-serif;
+}
+
+/* Глобальные правила для адаптивного масштаба всего сайта */
+html {
+    /* На мобильных базовый размер */
+    font-size: 15px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+
+    /* Планшеты */
+}
+
+@media (min-width: 1280px) {
+    html {
+        font-size: 18px;
+    }
+
+    /* Ноутбуки и обычные мониторы */
+}
+
+@media (min-width: 1920px) {
+    html {
+        font-size: 20px;
+    }
+
+    /* Большие FullHD / 2K экраны, как у тебя */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #fcfbf7;
+    overflow-x: hidden;
+}
