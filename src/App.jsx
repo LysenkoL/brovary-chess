@@ -3,8 +3,14 @@ import {
   Crown, Calendar, Clock, MapPin, Trophy, ArrowRight, ArrowUpRight, ArrowLeft,
   Menu, X, Quote, Phone, Send, GraduationCap, Medal, Star,
   Zap, Timer, Hourglass, ChevronDown, Sparkles, Users,
-  ExternalLink, Copy, Globe, Target, ShieldCheck, CalendarX
+  ExternalLink, Copy, Globe, Target, ShieldCheck
 } from "lucide-react";
+
+const ChessPiece = ({ piece, className, style }) => (
+  <div className={`font-display select-none pointer-events-none ${className}`} style={{ ...style }}>
+    {piece}
+  </div>
+);
 
 /* ============================================================
    ФЕДЕРАЦІЯ ШАХІВ МІСТА БРОВАРИ · chessbrovary.com.ua
@@ -74,11 +80,14 @@ const C = {
 };
 
 const FONTS = `
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Manrope:wght@300;400;500;600;700&display=swap');
   .font-display { font-family: 'Cormorant Garamond', Georgia, serif; }
   .font-body { font-family: 'Manrope', system-ui, sans-serif; }
   html { scroll-behavior: smooth; }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
+  .link-anim { position: relative; display: inline-block; }
+  .link-anim::after { content: ''; position: absolute; width: 100%; transform: scaleX(0); height: 1px; bottom: 0; left: 0; background-color: currentColor; transform-origin: bottom right; transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
+  .link-anim:hover::after { transform: scaleX(1); transform-origin: bottom left; }
+  @keyframes float { 0% { transform: translateY(0px) rotate(-12deg); } 50% { transform: translateY(-20px) rotate(-12deg); } 100% { transform: translateY(0px) rotate(-12deg); } }
 `;
 
 /* ============================================================
@@ -292,15 +301,20 @@ const FadeIn = ({ children, delay = 0, className = "", direction = "up" }) => {
   }, []);
 
   const transforms = {
-    up: "translate-y-8",
-    down: "-translate-y-8",
-    left: "translate-x-8",
-    right: "-translate-x-8",
-    none: "translate-y-0 translate-x-0"
+    up: "translate3d(0, 32px, 0)",
+    down: "translate3d(0, -32px, 0)",
+    left: "translate3d(32px, 0, 0)",
+    right: "translate3d(-32px, 0, 0)",
+    none: "translate3d(0, 0, 0)"
   };
 
   return (
-    <div ref={domRef} className={`transition-all duration-1000 ease-out ${isVisible ? "opacity-100 translate-y-0 translate-x-0" : `opacity-0 ${transforms[direction]}`} ${className}`} style={{ transitionDelay: `${delay}ms` }}>
+    <div ref={domRef} className={className} style={{ 
+      transition: "opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1)", 
+      transitionDelay: `${delay}ms`, 
+      opacity: isVisible ? 1 : 0, 
+      transform: isVisible ? "translate3d(0, 0, 0)" : transforms[direction] 
+    }}>
       {children}
     </div>
   );
@@ -362,7 +376,7 @@ const PlayerCard = ({ player }) => {
   return (
     <div
       tabIndex={0}
-      className="group relative rounded-3xl overflow-hidden aspect-[4/5] outline-none focus-visible:ring-2 focus-visible:ring-amber-300 cursor-pointer"
+      className="group relative rounded-3xl overflow-hidden aspect-[4/5] outline-none focus-visible:ring-2 focus-visible:ring-amber-300 cursor-pointer transition-all hover:-translate-y-1 hover:shadow-lg"
       style={{ backgroundColor: "#3A372F" }}
     >
       {hasPhoto ? (
@@ -503,14 +517,14 @@ function CoachLanding({ goHome, onContact }) {
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <button onClick={onContact}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold transition-transform hover:scale-105"
+                className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold transition-transform hover:scale-105"
                 style={{ backgroundColor: C.amber, color: "#FBF8F2" }}>
-                Записатися на пробне заняття <ArrowRight size={15} />
+                Записатися на пробне заняття <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
               </button>
               <a href={CONFIG.telegramUrl} target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold border transition-colors hover:bg-white/10"
+                className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold border transition-colors hover:bg-white/10"
                 style={{ borderColor: "rgba(251,248,242,0.4)", color: "#FBF8F2" }}>
-                <Send size={15} /> Консультація тренера
+                <Send size={15} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /> Консультація тренера
               </a>
             </div>
           </div>
@@ -533,10 +547,12 @@ function CoachLanding({ goHome, onContact }) {
           <Eyebrow>Про тренера в цифрах</Eyebrow>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {numbers.map((n, i) => (
-              <div key={i} className="rounded-2xl p-6" style={{ backgroundColor: C.card, border: `1px solid ${C.line}` }}>
-                <p className="font-display text-4xl sm:text-5xl font-semibold" style={{ color: C.emerald }}>{n.value}</p>
-                <p className="mt-2 text-sm leading-snug" style={{ color: C.inkSoft }}>{n.label}</p>
-              </div>
+              <FadeIn key={i} delay={i * 150}>
+                <div className="rounded-2xl p-6 h-full transition-all hover:-translate-y-1 hover:shadow-lg" style={{ backgroundColor: C.card, border: `1px solid ${C.line}` }}>
+                  <p className="font-display text-4xl sm:text-5xl font-semibold" style={{ color: C.emerald }}>{n.value}</p>
+                  <p className="mt-2 text-sm leading-snug" style={{ color: C.inkSoft }}>{n.label}</p>
+                </div>
+              </FadeIn>
             ))}
           </div>
         </div>
@@ -551,21 +567,23 @@ function CoachLanding({ goHome, onContact }) {
           </h2>
           <div className="grid md:grid-cols-3 gap-5">
             {cases.map((c, i) => (
-              <div key={i} className="rounded-3xl overflow-hidden flex flex-col" style={{ backgroundColor: C.card, border: i === 0 ? `2px solid ${C.amber}` : `1px solid ${C.line}` }}>
-                <div className="aspect-[4/3] relative" style={{ backgroundColor: C.ink }}>
-                  <CaseImage src={c.photo} name={c.name} />
+              <FadeIn key={i} delay={i * 150} className="h-full">
+                <div className="rounded-3xl overflow-hidden flex flex-col h-full transition-all hover:-translate-y-1 hover:shadow-lg" style={{ backgroundColor: C.card, border: i === 0 ? `2px solid ${C.amber}` : `1px solid ${C.line}` }}>
+                  <div className="aspect-[4/3] relative" style={{ backgroundColor: C.ink }}>
+                    <CaseImage src={c.photo} name={c.name} />
+                  </div>
+                  <div className="p-6 flex-1">
+                    {i === 0 && (
+                      <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full mb-3" style={{ backgroundColor: `${C.amber}1A`, color: C.amberDeep }}>
+                        <Star size={12} /> Головний кейс
+                      </span>
+                    )}
+                    <h3 className="font-display text-2xl font-semibold" style={{ lineHeight: 1.15 }}>{c.name}</h3>
+                    <p className="text-sm font-semibold mb-3 mt-1" style={{ color: C.amber }}>{c.sub}</p>
+                    <p className="text-sm leading-relaxed" style={{ color: C.inkSoft }}>{c.text}</p>
+                  </div>
                 </div>
-                <div className="p-6 flex-1">
-                  {i === 0 && (
-                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full mb-3" style={{ backgroundColor: `${C.amber}1A`, color: C.amberDeep }}>
-                      <Star size={12} /> Головний кейс
-                    </span>
-                  )}
-                  <h3 className="font-display text-2xl font-semibold" style={{ lineHeight: 1.15 }}>{c.name}</h3>
-                  <p className="text-sm font-semibold mb-3 mt-1" style={{ color: C.amber }}>{c.sub}</p>
-                  <p className="text-sm leading-relaxed" style={{ color: C.inkSoft }}>{c.text}</p>
-                </div>
-              </div>
+              </FadeIn>
             ))}
           </div>
         </div>
@@ -609,15 +627,17 @@ function CoachLanding({ goHome, onContact }) {
             {advantages.map((a, i) => {
               const Icon = a.icon;
               return (
-                <div key={i} className="rounded-2xl p-7 flex gap-4" style={{ backgroundColor: "#39362F", border: "1px solid rgba(251,248,242,0.08)" }}>
-                  <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: `${C.amber}26` }}>
-                    <Icon size={19} style={{ color: C.amberSoft }} />
+                <FadeIn key={i} delay={i * 150} className="h-full">
+                  <div className="rounded-2xl p-7 flex gap-4 h-full transition-all hover:-translate-y-1 hover:shadow-lg" style={{ backgroundColor: "#39362F", border: "1px solid rgba(251,248,242,0.08)" }}>
+                    <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: `${C.amber}26` }}>
+                      <Icon size={19} style={{ color: C.amberSoft }} />
+                    </div>
+                    <div>
+                      <h3 className="font-display text-xl font-semibold text-[#FBF8F2]" style={{ lineHeight: 1.2 }}>{a.title}</h3>
+                      <p className="mt-1.5 text-sm leading-relaxed" style={{ color: "rgba(251,248,242,0.7)" }}>{a.text}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-display text-xl font-semibold text-[#FBF8F2]" style={{ lineHeight: 1.2 }}>{a.title}</h3>
-                    <p className="mt-1.5 text-sm leading-relaxed" style={{ color: "rgba(251,248,242,0.7)" }}>{a.text}</p>
-                  </div>
-                </div>
+                </FadeIn>
               );
             })}
           </div>
@@ -769,7 +789,7 @@ export default function BrovaryChessFederation() {
           <nav className="hidden md:flex items-center gap-6">
             {NAV.map((n) => (
               <button key={n.id} onClick={() => go(n.id)}
-                className="text-sm font-medium tracking-wide transition-opacity hover:opacity-70"
+                className="text-sm font-medium tracking-wide transition-opacity hover:opacity-70 link-anim"
                 style={{ color: scrolled ? C.ink : "#FBF8F2" }}>
                 {n.label}
               </button>
@@ -806,37 +826,47 @@ export default function BrovaryChessFederation() {
 
       {/* ===== Hero ===== */}
       <section id="hero" className="relative min-h-screen flex items-end overflow-hidden" style={{ backgroundColor: C.ink }}>
-        <SmartImg src="./images/hero.jpg"
-          fallback="https://images.unsplash.com/photo-1529699211952-734e80c4d42b?auto=format&fit=crop&w=2000&q=80"
-          alt="Шахові фігури в теплому світлі"
-          className="absolute inset-0 w-full h-full object-cover" />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(24,21,17,0.92) 0%, rgba(24,21,17,0.7) 40%, rgba(24,21,17,0.5) 75%, rgba(24,21,17,0.45) 100%)" }} />
+        <picture className="absolute inset-0 w-full h-full">
+          <source media="(max-width: 640px)" srcSet="./images/hero-mobile.jpg" />
+          <SmartImg src="./images/hero.jpg"
+            fallback="https://images.unsplash.com/photo-1529699211952-734e80c4d42b?auto=format&fit=crop&w=2000&q=80"
+            alt="Шахові фігури в теплому світлі"
+            className="w-full h-full object-cover" />
+        </picture>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#181511E6] via-[#181511B3] to-transparent sm:bg-gradient-to-r sm:from-[#181511F2] sm:via-[#181511B3] sm:to-transparent" />
+        <ChessPiece piece="♞" className="absolute text-[#FBF8F2] opacity-5 text-[15rem] sm:text-[25rem] -rotate-12 top-10 right-10 sm:right-20 animate-[float_6s_ease-in-out_infinite]" />
         <div className="relative max-w-6xl mx-auto px-5 sm:px-8 pb-20 sm:pb-28 pt-40 w-full">
-          <p className="font-body text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase mb-5" style={{ color: C.amberSoft }}>
-            Офіційна федерація міста · з 2016 року
-          </p>
-          <h1 className="font-display font-medium leading-[1.04] text-[#FBF8F2]" style={{ fontSize: "clamp(2.6rem, 7vw, 5.5rem)" }}>
-            Бровари{" "}
-            <em className="font-display italic" style={{ color: C.amberSoft }}>грають</em>
-            <br />у шахи
-          </h1>
-          <p className="mt-6 max-w-xl text-base sm:text-lg leading-relaxed" style={{ color: "rgba(251,248,242,0.85)" }}>
-            Дитяча школа, дорослий клуб і турніри з обрахунком рейтингу ФІДЕ.
-            Наші вихованці привозять медалі з чемпіонатів Києва, області,
-            України та світу.
-          </p>
-          <div className="mt-9 flex flex-wrap gap-4">
+          <FadeIn delay={0} className="hero-rise">
+            <p className="font-body text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase mb-5" style={{ color: C.amberSoft }}>
+              Офіційна федерація міста · з 2016 року
+            </p>
+          </FadeIn>
+          <FadeIn delay={200} className="hero-rise">
+            <h1 className="font-display font-medium leading-[1.04] text-[#FBF8F2]" style={{ fontSize: "clamp(2.6rem, 7vw, 5.5rem)" }}>
+              Бровари{" "}
+              <em className="font-display italic" style={{ color: C.amberSoft }}>грають</em>
+              <br />у шахи
+            </h1>
+          </FadeIn>
+          <FadeIn delay={400} className="hero-rise">
+            <p className="mt-6 max-w-xl text-base sm:text-lg leading-relaxed" style={{ color: "rgba(251,248,242,0.85)" }}>
+              Дитяча школа, дорослий клуб і турніри з обрахунком рейтингу ФІДЕ.
+              Наші вихованці привозять медалі з чемпіонатів Києва, області,
+              України та світу.
+            </p>
+          </FadeIn>
+          <FadeIn delay={600} className="hero-rise mt-9 flex flex-wrap gap-4">
             <button onClick={() => go("rozklad")}
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold transition-transform hover:scale-105"
+              className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold transition-transform hover:scale-105"
               style={{ backgroundColor: C.amber, color: "#FBF8F2" }}>
-              Розклад занять <ArrowRight size={16} />
+              Розклад занять <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
             </button>
             <button onClick={() => go("zhyttia")}
               className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold border transition-colors hover:bg-white/10"
               style={{ borderColor: "rgba(251,248,242,0.5)", color: "#FBF8F2" }}>
               Останні новини
             </button>
-          </div>
+          </FadeIn>
         </div>
         <button onClick={() => go("filosofiya")} aria-label="Прокрутити нижче"
           className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden sm:block animate-bounce"
@@ -949,7 +979,7 @@ export default function BrovaryChessFederation() {
           {/* Перемикач рівнів */}
           <div className="flex flex-wrap gap-2 mb-8">
             <button onClick={() => setLevel("all")}
-              className="px-4 py-2.5 rounded-full text-sm font-semibold transition-colors"
+              className="px-4 py-2.5 rounded-full text-sm font-semibold transition-all hover:-translate-y-0.5 hover:shadow-md"
               style={level === "all"
                 ? { backgroundColor: C.ink, color: "#FBF8F2" }
                 : { backgroundColor: C.card, color: C.inkSoft, border: `1px solid ${C.line}` }}>
@@ -957,7 +987,7 @@ export default function BrovaryChessFederation() {
             </button>
             {SCHEDULE_GROUPS.map((g) => (
               <button key={g.key} onClick={() => setLevel(g.key)}
-                className="px-4 py-2.5 rounded-full text-sm font-semibold transition-colors inline-flex items-center gap-2"
+                className="px-4 py-2.5 rounded-full text-sm font-semibold transition-all hover:-translate-y-0.5 hover:shadow-md inline-flex items-center gap-2"
                 style={level === g.key
                   ? { backgroundColor: g.color, color: "#FBF8F2" }
                   : { backgroundColor: C.card, color: C.inkSoft, border: `1px solid ${C.line}` }}>
@@ -1050,9 +1080,9 @@ export default function BrovaryChessFederation() {
 
           <div className="mt-14 text-center">
             <a href={CONFIG.facebookGroupUrl} target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold"
+              className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold"
               style={{ backgroundColor: C.ink, color: "#FBF8F2" }}>
-              <Crown size={15} style={{ color: C.amberSoft }} /> Усі новини — у групі Chess-Brovary <ArrowUpRight size={14} />
+              <Crown size={15} style={{ color: C.amberSoft }} /> Усі новини — у групі Chess-Brovary <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
           </div>
         </div>
@@ -1068,7 +1098,7 @@ export default function BrovaryChessFederation() {
             </h2>
             <p className="text-sm max-w-xs leading-relaxed" style={{ color: C.inkSoft }}>
               Регламенти, запрошення та підсумкові таблиці публікуємо у{" "}
-              <a href={CONFIG.facebookGroupUrl} target="_blank" rel="noopener noreferrer" className="font-semibold underline" style={{ color: C.emerald }}>
+              <a href={CONFIG.facebookGroupUrl} target="_blank" rel="noopener noreferrer" className="font-semibold underline transition-colors hover:text-[#B07A2A]" style={{ color: C.emerald }}>
                 Facebook-групі федерації
               </a>.
             </p>
@@ -1076,10 +1106,10 @@ export default function BrovaryChessFederation() {
 
           {upcoming.length === 0 ? (
             <div className="rounded-3xl p-12 sm:p-16 text-center" style={{ backgroundColor: C.card, border: `1px dashed ${C.line}` }}>
-              <CalendarX size={40} className="mx-auto mb-5" style={{ color: C.amber }} strokeWidth={1.4} />
-              <h3 className="font-display text-2xl sm:text-3xl font-semibold">Поки що анонсів немає</h3>
+              <ChessPiece piece="♞" className="mx-auto mb-5 text-6xl" style={{ color: C.amber }} />
+              <h3 className="font-display text-2xl sm:text-3xl font-semibold">Турнірна пауза — клуб готує новий сезон</h3>
               <p className="mt-3 text-sm max-w-md mx-auto leading-relaxed" style={{ color: C.inkSoft }}>
-                Календар у підготовці. Стежте за анонсами у Facebook-групі —
+                Найближчі старти ще не анонсовані... Стежте за анонсами у Facebook-групі —
                 нові турніри з'являться тут одразу після оголошення.
               </p>
               <a href={CONFIG.facebookGroupUrl} target="_blank" rel="noopener noreferrer"
@@ -1244,7 +1274,7 @@ export default function BrovaryChessFederation() {
                   </div>
                   <p className="font-body text-lg font-bold text-white tracking-tight">бул. Незалежності, 2</p>
                   <p className="mt-1.5 text-sm font-medium inline-flex items-center gap-1.5" style={{ color: "rgba(255,255,255,0.92)" }}>
-                    Відкрити маршрут у Google Maps <ArrowUpRight size={14} />
+                    Відкрити маршрут у Google Maps <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </p>
                 </div>
               </a>
@@ -1258,9 +1288,9 @@ export default function BrovaryChessFederation() {
         <div className="max-w-6xl mx-auto px-5 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2.5">
             <Crown size={18} style={{ color: C.amberSoft }} strokeWidth={1.6} />
-            <span className="font-display text-base font-semibold text-[#FBF8F2]">Федерація шахів міста Бровари</span>
+            <a href="#" className="font-display text-base font-semibold text-[#FBF8F2] link-anim">Федерація шахів міста Бровари</a>
           </div>
-          <p className="text-xs" style={{ color: "rgba(251,248,242,0.5)" }}>© 2026 · chessbrovary.com.ua</p>
+          <p className="text-xs" style={{ color: "rgba(251,248,242,0.5)" }}>© 2026 · <a href="/" className="link-anim">chessbrovary.com.ua</a></p>
         </div>
       </footer>
     </div>
